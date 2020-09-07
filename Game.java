@@ -2,20 +2,20 @@
 //Period 6
 //5-18-2018
 //Game.java
-import java.awt.*; import javax.swing.*;  import java.awt.event.*; 
+import java.awt.*; import javax.swing.*;  import java.awt.event.*;
 import javax.swing.Timer; import java.util.Scanner; import java.io.*;
 import javax.swing.event.*;
 public class Game
 {
 /* This class holds all other classes and methods. */
-    Image[] santa, krampus, elf; 
+    Image[] santa, krampus, elf;
     JFrame frame;
     LevelSelect map;
-    SaveProgress saver; 
+    SaveProgress saver;
     TopPlayers leaders;
-    JPanel masterPanel, game; 
-    Home home; 
-    JButton[] goHome= new JButton[4]; 
+    JPanel masterPanel, game;
+    Home home;
+    JButton[] goHome= new JButton[4];
     JButton[] play = new JButton[4];
     JButton save;
     Color lightBlue = new Color(220, 255, 255);
@@ -24,43 +24,43 @@ public class Game
     CardLayout whichScreen;
     boolean stand = false;
     public static void main(String[]args)
-    { 
+    {
 /*Runs method that starts game*/
-        Game object = new Game(); 
+        Game object = new Game();
         object.run();
     }
     public void run()
-    {   
+    {
 /*This method creates the frame, creates a master panel that has a card layout to hold all the levels and other screens. It also initializes the pictures of the main characters that I will use throughout the code. It then runs the method that sets the frame to the opening screen. */
-        frame = new JFrame("Game Trial"); 
+        frame = new JFrame("Game Trial");
         frame.setSize(800, 600);
         frame.setLocation(0,0);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                
+
         String[]which = {"Crouching", "Standing", "Left", "Right", "Squat"};
         santa = new Image[5];
         krampus = new Image[5];
         elf = new Image[5];
-        
+
         for(int i=0; i<5; i++)
-        { 
-          santa[i] = new ImageIcon(which[i]+"Santa.png").getImage();
-          krampus[i] = new ImageIcon(which[i]+"Krampus.png").getImage();
-          elf[i] = new ImageIcon(which[i]+"Elf.png").getImage();
+        {
+          santa[i] = new ImageIcon(which[i]+"assets/Santa.png").getImage();
+          krampus[i] = new ImageIcon(which[i]+"assets/Krampus.png").getImage();
+          elf[i] = new ImageIcon(which[i]+"assets/Elf.png").getImage();
         }
-        
+
         whichScreen = new CardLayout();
         masterPanel = new JPanel(whichScreen);
-        
+
         opening();
         frame.setVisible(true);
     }
     public void opening()
-    {   
+    {
 /* This creates all the back and play buttons on the preliminary screens. It creates the Instruction, Credits, and Leaderboard panels and adds it to the master panel that has the card layout. It then sets the content of the frame to the master panel. */
         masterPanel.setLayout(whichScreen);
-        
+
         ButtonHandler hand = new ButtonHandler();
         for(int x=0; x<4; x++)
         {
@@ -72,7 +72,7 @@ public class Game
             goHome[x].setForeground(dark);
             goHome[x].setBackground(light);
             goHome[x].setFont(new Font("Arial", Font.BOLD, 40));}
-            
+
             play[x] = new JButton("PLAY");
             play[x].setFont(new Font("Arial", Font.BOLD ,40));
             play[x].setBackground(light);
@@ -80,25 +80,25 @@ public class Game
             play[x].setPreferredSize(new Dimension(200, 100));
             play[x].setBorderPainted(false);
             play[x].addActionListener(hand);
-            
+
         }
-        
+
         home = new Home();
-        
+
         home.setLayout(new FlowLayout(1, 250, 10));
-        
+
         Instructions instruct = new Instructions();
         leaders = new TopPlayers();
         saver = new SaveProgress();
-        
+
         masterPanel.add(home, "Home Screen");
         masterPanel.add(instruct, "Instructions");
         masterPanel.add(leaders, "Leaderboard");
         masterPanel.add(saver, "Save Score");
-        
+
         whichScreen.show(masterPanel, "Home Screen");
         frame.setContentPane(masterPanel);
-        
+
     }
     public void gameMap()
     {
@@ -113,13 +113,13 @@ class Home extends JPanel implements ActionListener
 /* This class makes the opening panel that is first visible upon opening the game. It contains buttons to travel to the other preliminary screens and the game map. */
     Timer jump = new Timer(500, this);
     JButton instruct, scores;
-    Image back = new ImageIcon("HomeBack.png").getImage();
+    Image back = new ImageIcon("assets/HomeBack.png").getImage();
     boolean stand;
-    
+
     public Home()
-    { 
+    {
 /* This starts the timer that makes the characters on the home screen squat and stand up. It also runs the method that creates the buttons. */
-        jump.start(); 
+        jump.start();
         buttons();
     }
     public void buttons()
@@ -128,16 +128,16 @@ class Home extends JPanel implements ActionListener
         JLabel title = new JLabel("Attack on Santa's Workshop");
         title.setFont(new Font("Arial", Font.BOLD, 50));
         title.setForeground(dark);
-        
+
         instruct = new JButton("INSTRUCTIONS");
         scores = new JButton("LEADERBOARD");
         goHome[3] = new JButton("BACK");
         save = new JButton("SAVE");
-        
+
         JButton alias = new JButton();
         ButtonHandler hand = new ButtonHandler();
         for(int x =0; x<4 ;x++)
-        {    
+        {
             if(x==0) alias = instruct;
             else if(x==1) alias = goHome[3];
             else if(x==2) alias = save;
@@ -153,7 +153,7 @@ class Home extends JPanel implements ActionListener
         fill.setPreferredSize(new Dimension(200, 100));
         JPanel fill2 = new JPanel(); fill2.setOpaque(false);
         fill2.setPreferredSize(new Dimension(200, 20));
-                    
+
         add(fill2);
         add(title);
         add(fill);
@@ -162,14 +162,14 @@ class Home extends JPanel implements ActionListener
         add(scores);
     }
     public void paintComponent(Graphics g)
-    { 
+    {
 /* This method paints the cage, santa, krampus, and elf on the home screen of the game. */
         super.paintComponent(g);
         g.drawImage(back, 0, 0, null);
-        
+
         if(stand)g.drawImage(santa[1], 5, 200, 300, 300, null);
         else g.drawImage(santa[0], 55, 200, 200, 300, null);
-        
+
         g.setColor(Color.GRAY);
         for(int i=350; i>=0; i-=40)
         g.fillRect(i, 175, 10, 350);
@@ -181,7 +181,7 @@ class Home extends JPanel implements ActionListener
             g.drawImage(elf[1], 200, 400, 150, 150, null);
             g.drawImage(krampus[0], 525, 200, 250, 300, null);
         }
-        else 
+        else
         {
             g.drawImage(elf[0], 200, 400, 150, 150, null);
             g.drawImage(krampus[1], 500, 200, 300, 300, null);
@@ -197,19 +197,19 @@ class Home extends JPanel implements ActionListener
 class Instructions extends JPanel implements ActionListener
 {
 /* This class will paint instructions for the next level as soon as I make instruction panels */
-    Image back = new ImageIcon("HomeBack.png").getImage();
+    Image back = new ImageIcon("assets/HomeBack.png").getImage();
     JButton[]pick = new JButton[6];
     Image[]pictures = new Image[6];
     JPanel buttonHolder = new JPanel(new GridLayout(1, 6));
     int picked=0;
-  
+
     public Instructions()
     {
 /* This constructor adds and sets the aesthetics for the buttons and initializes the images that hold instructions */
          add(goHome[0]);
          add(play[1]);
          buttonHolder.setPreferredSize(new Dimension(750, 25));
-         
+
          for(int index=0; index<6; index++)
          {
              pick[index] = new JButton("Level "+(index));
@@ -217,17 +217,17 @@ class Instructions extends JPanel implements ActionListener
              pick[index].setForeground(dark);
              pick[index].setBackground(light);
              pick[index].setBorderPainted(false);
-                
-             pictures[index]=new ImageIcon("Instruct"+(index)+".png").getImage();
+
+             pictures[index]=new ImageIcon("assets/Instruct"+(index)+".png").getImage();
              buttonHolder.add(pick[index]);
          }
-      
-         pictures[5]=new ImageIcon("Level56.png").getImage();
+
+         pictures[5]=new ImageIcon("assets/Level56.png").getImage();
          pick[0].setText("Overall");
          add(buttonHolder);
     }
     public void paintComponent(Graphics g)
-    {   
+    {
 /* This method paints the picture that the user picked*/
          super.paintComponent(g);
          g.drawImage(back, 0, 0, 800, 600, null);
@@ -243,39 +243,39 @@ class Instructions extends JPanel implements ActionListener
             char interm = e.getActionCommand().charAt(e.getActionCommand().length()-1);
             picked = (int)(interm)-48;
          }
-        
+
          repaint();
      }
-} 
+}
 class TopPlayers extends JPanel
 {
 /* This class makes and displays a scoreboard based on a text file. */
     File scoreboard;
     Scanner read;
-    Image back = new ImageIcon("HomeBack.png").getImage();
-    String[]names= new String[5]; 
+    Image back = new ImageIcon("assets/HomeBack.png").getImage();
+    String[]names= new String[5];
     int[]scores=new int[5];
     JLabel[] people = new JLabel[10];
-    JPanel holder = new JPanel(new GridLayout(5, 1));    
+    JPanel holder = new JPanel(new GridLayout(5, 1));
     public TopPlayers()
    {
 /* This constructor sets the layout of the leaderboard and adds buttons to go back to the home screen or the game map. It also runs the method grid. */
         setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
-        add(goHome[2]); 
-        add(play[3]); 
-            
+        add(goHome[2]);
+        add(play[3]);
+
         grid();
    }
     public void grid()
-    {   
+    {
 /* This method uses io to read a text file called scores.txt that holds the names of the top scorers of the game. It then makes a panel with a grid layout of JLabels to display the names and adds it to the main panel. */
-        scoreboard = new File("scores.txt");
+        scoreboard = new File("assets/scores.txt");
         tryCatch();
         holder.setPreferredSize(new Dimension(600, 300));
         Font write = new Font("Arial", Font.PLAIN, 20);;
         Color lightGreen = new Color(195, 253, 191);
-        ImageIcon present = new ImageIcon("SmallGift.png");
-   
+        ImageIcon present = new ImageIcon("assets/SmallGift.png");
+
         for(int numRead =0; numRead<10 ; numRead++)
         {
               if(numRead%2==0)
@@ -288,24 +288,24 @@ class TopPlayers extends JPanel
                   scores[numRead/2]=Integer.parseInt(read.nextLine());
                   people[numRead]=new JLabel(""+scores[numRead/2]+"    ", present, JLabel.CENTER);
               }
-              
+
               people[numRead].setFont(write);
-                 
-              if(numRead/2%2==0) 
+
+              if(numRead/2%2==0)
               {
                   people[numRead].setForeground(dark);
                   people[numRead].setBackground(light);
               }
-              else 
+              else
               {
                   people[numRead].setForeground(Color.RED);
                   people[numRead].setBackground(lightGreen);
               }
-              
+
               people[numRead].setOpaque(true);
               holder.add(people[numRead]);
         }
-        
+
         add(holder);
     }
     public void paintComponent(Graphics g)
@@ -324,18 +324,18 @@ class TopPlayers extends JPanel
         }
         catch(FileNotFoundException e)
         {
-            System.out.print("\n\n\nscores.txt not found\n\n\n");   
-            System.exit(1); 
+            System.out.print("\n\n\nscores.txt not found\n\n\n");
+            System.exit(1);
         }
     }
     public void save()
     {
 /* This method decides whether the user made the scoreboard and what position they'd get*/
         tryCatch();
-        int index = -1; 
-        int score = map.numGifts; 
+        int index = -1;
+        int score = map.numGifts;
         boolean run=true;
-        
+
         while(index<5 && run)
         {
             index++;
@@ -350,35 +350,35 @@ class TopPlayers extends JPanel
                 scores[indexBack]=scores[indexBack-1];
             }
             names[index]= saver.name;
-            scores[index]= score; 
+            scores[index]= score;
         }
-     
+
         PrintWriter write=null;
- 
+
         try
         {
             write = new PrintWriter(scoreboard);
         }
         catch(FileNotFoundException e)
         {
-            System.out.print("\n\n\nscores.txt not found\n\n\n");   
-            System.exit(1); 
+            System.out.print("\n\n\nscores.txt not found\n\n\n");
+            System.exit(1);
         }
         for(index=0; index<4; index++)
         {
             write.println(names[index]);
             write.println(scores[index]);
         }
-    
+
         write.println(names[index]);
         write.print(scores[index]);
         write.close();
-                       
+
         holder.removeAll();
         remove(holder);
-            
+
         grid();
-           
+
         whichScreen.show(masterPanel, "Leaderboard");
     }
 }
@@ -388,13 +388,13 @@ class Introduction extends JPanel implements MouseListener
     int pic;
     Image[]intro = new Image[6];
     String which;
-    
+
     public Introduction(String get)
     {
 /*This constructor adds a mouse listener to the panel and initializes the images that are shown when the user clicks the "play" button. */
      for(int i=0; i<6; i++)
-     intro[i]=new ImageIcon(get+(i+1)+".png").getImage();
-     which=get; 
+     intro[i]=new ImageIcon("assets/"+get+(i+1)+".png").getImage();
+     which=get;
      addMouseListener(this);
     }
     public void paintComponent(Graphics g)
@@ -416,10 +416,10 @@ class Introduction extends JPanel implements MouseListener
             whichScreen.show(masterPanel, "Level5");
         }
     }
-    public void mouseClicked(MouseEvent evt) 
-    { 
+    public void mouseClicked(MouseEvent evt)
+    {
 /* When the user click, this method changes the shown panel and repaints */
-        pic++; 
+        pic++;
         repaint();
     }
     public void mouseEntered(MouseEvent evt){}
@@ -434,34 +434,34 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
     int xAdd, time, shift, speed, yAdd, jump;
     boolean[] completed = new boolean[6];
     int[] trees = new int[8]; int[]height = new int[8];
-    boolean rightShift, leftShift; 
+    boolean rightShift, leftShift;
     Color brown;
-    int numGifts; 
-    Image present = new ImageIcon("Gift.png").getImage();
+    int numGifts;
+    Image present = new ImageIcon("assets/Gift.png").getImage();
     Font font = new Font("Arial", Font.BOLD, 50);
     Timer walking = new Timer(50, this);
     public LevelSelect()
-    {   
+    {
 /* This constructor sets the background, adds a button if the user wishes to return to the home screen. It also initializes the variables to move the elf and let the user make it jump, walk, and shift the visible screen. It also randomly generates the location of trees so it doesn't change on every repaint. It also adds the Key Listener and Mouse Listener. */
         setBackground(lightBlue);
-        
+
         completed[0]=true;
         for(int index=1; index<5; index++)
         completed[index]=false;
-        
+
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        add(goHome[3]); 
+        add(goHome[3]);
         add(save);
-        
-        left = right = rightShift = leftShift = focus = false; //movement 
+
+        left = right = rightShift = leftShift = focus = false; //movement
         time=300;
         speed=10;
-        
+
         addKeyListener(this); //Listeners
         addMouseListener(this);
         addFocusListener(this);
-        walking.start();    //Timer 
-        
+        walking.start();    //Timer
+
         brown = new Color(202, 104, 0);
         int x=0;
         for(int which = 0; which<8; which++) //Set dimensions of trees
@@ -477,7 +477,7 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
 /* This method paints the ground and calls methods to draw the trees, the level doors, and the elf. */
         super.paintComponent(g);
         g.setColor(Color.WHITE); //ground
-        g.fillRect(shift-100, 400, 2200, 200); 
+        g.fillRect(shift-100, 400, 2200, 200);
 
         treeDraw(g); //trees
         levelDraw(g);
@@ -492,7 +492,7 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
             g.drawString("Click Anywhere to Play", 100, 275);
         }
      }
- 
+
     public void levelDraw(Graphics g2)
     {
 /* This method creates the doors which lead to the levels and labels them. */
@@ -503,7 +503,7 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
             g2.setColor(Color.YELLOW);
             g2.fillRect(shift-5+350*(index+1), 250, 110, 175);
             g2.fillArc(shift-5+350*(index+1), 195, 110, 110, 0, 180);
-            
+
             g2.setColor(Color.BLACK);
             g2.fillRect(shift+350*(index+1), 250, 100, 175);
             g2.fillArc(shift+350*(index+1), 200, 100, 100, 0, 180);
@@ -512,14 +512,14 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
         }
     }
     public void treeDraw(Graphics g2)
-    {   
+    {
 /* This method paints the trees based on the coordinates determined in the constructor. */
         for(int x=0; x<8; x++)
         {
             g2.setColor(brown);
             g2.fillRect(shift+trees[x], 400-height[x], 2, height[x]);
             g2.setColor(Color.GREEN);
-   
+
             for(int y=0; y<height[x]; y+=3)
             {
                 g2.drawLine(shift+trees[x]+1, 400-height[x]+y, shift+trees[x]-(int)(0.3*y), 400-height[x]+(int)(1.1*y));
@@ -528,9 +528,9 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
         }
      }
     public void elf(Graphics g2)
-    {   
+    {
 /* This method paints the elf according to the location and action determined by the user. */
-        if(jump==time && yAdd==0) 
+        if(jump==time && yAdd==0)
             g2.drawImage(elf[0], shift+xAdd, 280+yAdd, 150, 150, null);
         else if(!(right||left))
             g2.drawImage(elf[1], shift+xAdd, 280+yAdd, 150, 150, null);
@@ -538,7 +538,7 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
         {
             if(time%10>=0 && time%10<5)
                 g2.drawImage(elf[2], shift+xAdd, 278+yAdd, 150, 152, null);
-            else 
+            else
                 g2.drawImage(elf[3], shift+xAdd, 280+yAdd, 150, 150, null);
         }
     }
@@ -546,7 +546,7 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
     {
 /* This method changes the game map to the user selected level. */
         walking.stop();
-        if(level==1) 
+        if(level==1)
         {
              Level1 level1 = new Level1();
              masterPanel.add(level1, "Level1");
@@ -577,24 +577,24 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
              whichScreen.show(masterPanel, "Introduction");
         }
     }
-    public void keyPressed(KeyEvent evt) 
-    { 
+    public void keyPressed(KeyEvent evt)
+    {
 /* This method determines if the user has tried to move the elf, moves the screen to show what is needed, and starts the process of jumping. */
         int code = evt.getKeyCode();
-        if(code==KeyEvent.VK_RIGHT) 
+        if(code==KeyEvent.VK_RIGHT)
             right = true;
-        if(code==KeyEvent.VK_LEFT) 
+        if(code==KeyEvent.VK_LEFT)
             left= true;
         if(code==KeyEvent.VK_UP || code==KeyEvent.VK_SPACE)
         {
             jump = time;
             for(int index=1; index<=5; index++)
-            if(xAdd<130+350*index && xAdd>350*index-50) 
-                levelPicked(index); 
+            if(xAdd<130+350*index && xAdd>350*index-50)
+                levelPicked(index);
         }
         repaint();
      }
-     public void keyReleased(KeyEvent evt) 
+     public void keyReleased(KeyEvent evt)
      {
 /*This method stops the screen from moving and repaints so the elf stands when not moving instead of having a foot hover. */
         left = right = false;
@@ -604,16 +604,16 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
      {
 /* This method shifts the screen, changes the elf's elevation so it has a smooth jump, and repaints the screen. */
           time++;
-          if(xAdd+shift>=shift+200 && shift>=-1200+speed && right) 
+          if(xAdd+shift>=shift+200 && shift>=-1200+speed && right)
           {
               rightShift=true;
               shift-=speed;
           }
           else rightShift=false;
-          
+
           if(right)  xAdd+=speed;
           else if(left)  xAdd-=speed;
-          
+
           if(jump+40>time)
           {
               int elapse = time-jump;
@@ -622,27 +622,27 @@ class LevelSelect extends JPanel implements KeyListener, ActionListener, MouseLi
           }
           if(left && shift+xAdd<200 && shift<-1*speed)
           {
-              leftShift=true; 
+              leftShift=true;
               shift+=speed;
           }
           else leftShift=false;
-              
+
           repaint();
      }
-     public void keyTyped(KeyEvent evt) 
-     { 
+     public void keyTyped(KeyEvent evt)
+     {
 /* If the user types F or S, the speed of the elf increases or decreases by a factor of two. */
           if(evt.getKeyChar()=='F') speed*=2;
           else if(evt.getKeyChar()=='S')speed/=2;
-          else if(evt.getKeyChar()=='H') 
-      
+          else if(evt.getKeyChar()=='H')
+
           for(int index=0; index<5; index++)
           completed[index]=true;
-      
+
           else if(evt.getKeyChar()=='+') numGifts++;
           else if(evt.getKeyChar()=='-') numGifts--;
      }
-     public void mouseClicked(MouseEvent evt) 
+     public void mouseClicked(MouseEvent evt)
      {
 /* This method makes it so that the KeyListener works. */
          grabFocus();
@@ -670,15 +670,15 @@ class SaveProgress extends JPanel implements ActionListener, FocusListener
      JPanel keyboard = new JPanel(new GridLayout(4, 8));
      JButton[]keys = new JButton[32];
      JTextField typeHere = new JTextField(20);
-     String name=""; 
-     boolean upper = false; 
+     String name="";
+     boolean upper = false;
      Font font = new Font("Arial", Font.BOLD, 20);
-   
+
      public SaveProgress()
     {
 //This constructor makes the keyboard and text field
         setLayout(new BorderLayout());
-   
+
         for(int index=0; index<32; index++)
         {
                 keys[index] = new JButton(""+(char)(index+97));
@@ -694,12 +694,12 @@ class SaveProgress extends JPanel implements ActionListener, FocusListener
         keys[29].setText("ENT");
         keys[30].setText("");
         keys[31].setText("");
-            
+
         typeHere.setBackground(light);
         typeHere.setFont(new Font("Arial", Font.BOLD, 50));
         typeHere.addActionListener(this);
         typeHere.addFocusListener(this);
-            
+
         keyboard.setPreferredSize(new Dimension(800, 400));
         keyboard.setOpaque(false);
         add(keyboard, BorderLayout.SOUTH);
@@ -732,7 +732,7 @@ class SaveProgress extends JPanel implements ActionListener, FocusListener
                     if(upper) add= 97;
                     for(int index=0; index<26; index++)
                         keys[index].setText(""+(char)(index+add));
-                    
+
                     upper=!upper;
                 }
             }
@@ -749,7 +749,7 @@ class SaveProgress extends JPanel implements ActionListener, FocusListener
     {
 //This method changes the name to what ever is in the text field after the user clicks away
         name = typeHere.getText();
-    }    
+    }
 }
 class ButtonHandler implements ActionListener
 {
@@ -758,16 +758,16 @@ class ButtonHandler implements ActionListener
     {
 /* This method changes the visible screen based on user commands*/
         String command = evt.getActionCommand();
-        if(command.equals("PLAY")) 
+        if(command.equals("PLAY"))
             gameMap();
         else if(command.equals("INSTRUCTIONS"))
             whichScreen.show(masterPanel, "Instructions");
         else if(command.equals("BACK"))
             {
-                whichScreen.show(masterPanel, "Home Screen"); 
+                whichScreen.show(masterPanel, "Home Screen");
                 home.jump.start();
              }
-        else if(command.equals("LEADERBOARD")) 
+        else if(command.equals("LEADERBOARD"))
             whichScreen.show(masterPanel, "Leaderboard");
         else if(command.equals("SAVE"))
             whichScreen.show(masterPanel, "Save Score");
@@ -775,26 +775,26 @@ class ButtonHandler implements ActionListener
 }
 class Levels extends JPanel implements MouseListener
 {
-/* This class is meant to be the parent of all other levels. It creates a panel, sets the backbar, and the card layout that holds the different 
+/* This class is meant to be the parent of all other levels. It creates a panel, sets the backbar, and the card layout that holds the different
    difficulties. It also has the methods to end the level by death or sucess. */
     CardLayout pickDifficulty = new CardLayout();
     JPanel play = new JPanel( pickDifficulty );
     ShowInstruct instruct;;
     Backbar options = new Backbar();
-    
+
     String current="";
-    boolean dead= false; 
+    boolean dead= false;
     boolean won = false;
     String elfName;
     int which;
-    int score; 
+    int score;
     int picked=1;
-    Image present = new ImageIcon("Gift.png").getImage();
-    
+    Image present = new ImageIcon("assets/Gift.png").getImage();
+
     Color light = new Color(253, 255, 178);
     Color dark = new Color(23, 172, 83);
     Color lightBlue = new Color(220, 255, 255);
-    
+
     public Levels(String get, int getwhich)
     {
 /* This constructor sets the layout, starts a mouselistener for when the level is complete, and recieves what color elf will be freed by the level. */
@@ -817,20 +817,20 @@ class Levels extends JPanel implements MouseListener
     public void paintComponent(Graphics g)
     {
 /* This method paints either the sucess or death screen depending on the elf passed into the constructor and booleans. */
-        super.paintComponent(g); 
+        super.paintComponent(g);
         setBackground(light);
         Image display = null;
         if(won)
         {
-            display = new ImageIcon(elfName+"Elf.png").getImage();
+            display = new ImageIcon("assets/"+elfName+"Elf.png").getImage();
             g.drawImage(display, 200, 100, 200, 400, null);
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Good Job Youngling!", 500, 200);
             g.drawString("Double Click me to proceed", 450, 230);
         }
         else if(dead)
-        {   
-             display = new ImageIcon("Died.png").getImage();
+        {
+             display = new ImageIcon("assets/Died.png").getImage();
              g.drawImage(display, -25, -70, 900, 630, null);
         }
     }
@@ -838,10 +838,10 @@ class Levels extends JPanel implements MouseListener
     {
 /* This method exits the level after the player has won or died and clicked on the screen. */
         if(won||dead)
-        {   
+        {
             if(won)
             map.completed[which]=true;
-            
+
             map.repaint();
             map.walking.start();
             whichScreen.show(masterPanel, "Game Map");
@@ -854,12 +854,12 @@ class Levels extends JPanel implements MouseListener
     class Backbar extends JPanel implements ActionListener
     {
 /* This class creates a panel on the Right side with a timer and a set of buttons to pick the difficulty*/
-        int time; 
+        int time;
         Timer timer = new Timer(200, this);
-        ButtonGroup group = new ButtonGroup();  
+        ButtonGroup group = new ButtonGroup();
         Color dark = new Color(23, 172, 83);
         Color light = new Color(253, 255, 178);
-        JToggleButton[] difficulty = new JToggleButton[4]; 
+        JToggleButton[] difficulty = new JToggleButton[4];
         JLabel instructions;
         public Backbar()
         {
@@ -868,14 +868,14 @@ class Levels extends JPanel implements MouseListener
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
             setPreferredSize(new Dimension(200, 600));
             timer.start();
-            
+
             difficulty[0]=new JToggleButton("EASY");
             difficulty[1]=new JToggleButton("MEDIUM");
             difficulty[2]=new JToggleButton("HARD");
             difficulty[3]=new JToggleButton("INSTRUCTIONS");
-            
+
             for(int whichButton=0; whichButton<4; whichButton++)
-            { 
+            {
                 difficulty[whichButton].setPreferredSize(new Dimension(170, 23));
                 difficulty[whichButton].setBackground(light);
                 difficulty[whichButton].setForeground(dark);
@@ -883,7 +883,7 @@ class Levels extends JPanel implements MouseListener
                 group.add(difficulty[whichButton]);
                 add(difficulty[whichButton]);
             }
-            
+
             difficulty[0].setSelected(true);
             instructions = new JLabel("");
             instructions.setHorizontalAlignment(JLabel.CENTER);
@@ -891,7 +891,7 @@ class Levels extends JPanel implements MouseListener
             instructions.setFont(new Font("Arial", Font.BOLD, 20));
             add(instructions);
         }
-    
+
         public void paintComponent(Graphics g)
         {
 /* This method creates the clock that shows the user how long they have to play before winning. */
@@ -903,44 +903,44 @@ class Levels extends JPanel implements MouseListener
             g.setColor(Color.GREEN);
             g.fillArc(57, 424, 92, 92, 90, -360+time);
         }
-     
+
         public void actionPerformed(ActionEvent e)
         {
 /* This method changes the level according to user actions. It also increases the time based on the timer.  */
                 String pressed = e.getActionCommand();
             if(e.getSource()==timer)
             {
-                time+=2; 
-                if(time>=360 && which!=1) 
+                time+=2;
+                if(time>=360 && which!=1)
                 {
-                    dead=true; 
+                    dead=true;
                     killIt();
                 }
             }
             else
             {
-                time = 0; 
+                time = 0;
                 pickDifficulty.show(play, e.getActionCommand());
-                
-                if(pressed.equals("EASY")) 
+
+                if(pressed.equals("EASY"))
                 {
                     picked=1;
                     timer.start();
                 }
-                else if(pressed.equals("MEDIUM")) 
+                else if(pressed.equals("MEDIUM"))
                 {
                     picked=2;
                     timer.start();
                 }
-                else if(pressed.equals("HARD")) 
+                else if(pressed.equals("HARD"))
                 {
                     picked=3;
                     timer.start();
                 }
                 else timer.stop();
                 restart();
-            } 
-         
+            }
+
             repaint();
         }
     }
@@ -950,7 +950,7 @@ class Levels extends JPanel implements MouseListener
         Image content;
         public ShowInstruct()
         {
-            content = new ImageIcon("Instruct"+which+".png").getImage();
+            content = new ImageIcon("assets/Instruct"+which+".png").getImage();
         }
         public void paintComponent(Graphics g)
         {
@@ -963,23 +963,23 @@ class Levels extends JPanel implements MouseListener
 class Level1 extends Levels
 {
 //This class creates level 1
-    Image mach = new ImageIcon("Machine.jpg").getImage();
-    Image bull = new ImageIcon("Bullet.png").getImage();
-    Image chains = new ImageIcon("Chains.png").getImage();
+    Image mach = new ImageIcon("assets/Machine.jpg").getImage();
+    Image bull = new ImageIcon("assets/Bullet.png").getImage();
+    Image chains = new ImageIcon("assets/Chains.png").getImage();
     Grid[]set = new Grid[3];
     public Level1()
-    {   
+    {
 /* This sets the background, creates the side panel to select the level and size of the elf,initializes the field variables, and adds the listeners. */
         super("Red", 1);
         String[]labels={"EASY","MEDIUM","HARD"};
         options.instructions.setText("<html><div style='text-align: center;'>"+"<html>SURVIVE<br/><br/>Avoid bullets<br/>and chains</html>"+"</div></html>");
         options.timer.stop();
-        
+
         for(int index=0; index<3; index++)
         {
             set[index]=new Grid(index+1);
             play.add(set[index], labels[index]);
-        }   
+        }
         pickDifficulty.show(play, "EASY");
     }
     public void restart()
@@ -1000,43 +1000,43 @@ class Level1 extends Levels
         JLabel showScore;
         Timer move = new Timer(10, this);
         int[] bullet, chain;
-    
+
         public Grid(int num)
         {
 /* This constructor creates the needed listeners, the textbox to show how many presents that the user has collected, and initializes variables.*/
             setLayout(new FlowLayout(FlowLayout.LEFT));
-        
+
             addKeyListener(this);
             addMouseListener(this);
             addFocusListener(this);
-            
+
             setBackground(Color.GRAY);
-            jumper = dead = squat = running = false; 
+            jumper = dead = squat = running = false;
             level = num;
-            
+
             showScore = new JLabel("");
             showScore.setForeground(Color.WHITE);
             showScore.setFont(new Font("Arial", Font.BOLD, 50));
             add(showScore);
-            
+
             bullet = new int[level*7];
             chain = new int[level*7];
             pics();
-        
+
             move.start();
             move.stop();
-        
+
             int[]arr1={250, 450, 250};
             int[]arr2={150, 250, 350};
             playButton = new Polygon(arr1, arr2, 3);
         }
         public void pics()
-        {        
+        {
 /* This method sets the location of the obstacles and initializes the pictures. */
             bullet[0]=chain[0]=750;
             giftX= new int[5*level];
-            giftY= new int[5*level];     
-            
+            giftY= new int[5*level];
+
             for(int num=1; num<level*7; num++)
             {
                 bullet[num]=(int)((num+1)*(Math.random()+1)*750)+1000*num;
@@ -1051,49 +1051,49 @@ class Level1 extends Levels
                     if(giftX[index]>=chain[check]-70 && giftX[index]<=chain[check]+170)
                     {
                         giftX[index]=(int)(Math.random()*4000)+800;
-                        check=-1; 
+                        check=-1;
                     }
                 }
             }
         }
         public void reset()
-        { 
-//This method restarts the clock in case of level change. 
+        {
+//This method restarts the clock in case of level change.
             time=0;
             move.stop();
             score=0;
             showScore.setText("");
             running=false;
-         }  
+         }
         public void paintComponent(Graphics g)
         {
 /* Based on booleans, this method determines whether to paint the screen for winning, for dying, or painting the level. */
             super.paintComponent(g);
-             
+
              g.setColor(dark);
              g.fillRect(0, 400, 3000, 200);
-             
+
              for(int machines = 1; machines<10; machines++)
              g.drawImage(mach, machines*300-time, 300, 200, 100, null);
-             
+
              for(int index = 0; index<7*level; index++)
              {
                  g.drawImage(bull, bullet[index]-time*2, 300, 100, 50, null);
                 g.drawImage(chains, chain[index]-time, 0, 100, 350, null);
              }
-             
+
              for(int index=0; index<5*level; index++)
              g.drawImage(present, giftX[index]-time, giftY[index], 50, 50, null);
-             
-             elf(g); 
+
+             elf(g);
              g.setColor(Color.WHITE);
-          
+
              if(running)
              {
                  g.fillRect(15, 515, 5, 20);
                  g.fillRect(23, 515, 5, 20);
              }
-             else 
+             else
              {
                  g.fillPolygon(playButton);
                  g.setColor(Color.BLACK);
@@ -1106,54 +1106,54 @@ class Level1 extends Levels
 /* This method paints the elf according to the size determined by the user and commands. */
         int jump = yAdd;
         if(yAdd<-200) jump= -400-jump ;
-        if(squat)  
+        if(squat)
         g2.drawImage(elf[4], 50, 400, 150, 80, null);
-        else 
+        else
         {
           if(time/30%2==0)
           g2.drawImage(elf[2], 50, 280+jump, 150, 152, null);
-          else 
+          else
           g2.drawImage(elf[3], 50, 280+jump, 150, 150, null);
         }
-        boolean deadCheck=false; 
-        for(int index=0; index<7*level; index++) 
-        {if(bullet[index]-time*2>=50 && bullet[index]-time*2<=150 
+        boolean deadCheck=false;
+        for(int index=0; index<7*level; index++)
+        {if(bullet[index]-time*2>=50 && bullet[index]-time*2<=150
            && -80>=jump-150 && -50<=jump && !squat)
-        {deadCheck = true;}  
+        {deadCheck = true;}
         if(chain[index]-time>=50 && chain[index]-time<=125 && !squat)
         deadCheck = true;
-        }  
-        
-        if(options.time>=360) 
+        }
+
+        if(options.time>=360)
         {
-            won=true; 
-            dead=false; 
+            won=true;
+            dead=false;
             map.numGifts+=score;
         }
-        else if(deadCheck) 
-        { 
-            dead=true; 
+        else if(deadCheck)
+        {
+            dead=true;
         }
         if(dead ||won) killIt();
-        
+
         for(int index=0; index<5*level; index++)
         if(giftX[index]-time>=50 && giftX[index]-time<=125 && giftY[index]-50<=430+jump && giftY[index]>=280+jump)
         {
             score+=5;
             showScore.setText(""+score);
-            giftX[index]=-200; 
+            giftX[index]=-200;
         }
-        
+
     }
-    public void keyPressed(KeyEvent evt) 
-    { 
+    public void keyPressed(KeyEvent evt)
+    {
 /* This method determines whether the user choses to jump or squat. */
-        int code = evt.getKeyCode(); 
+        int code = evt.getKeyCode();
         if(code==KeyEvent.VK_UP || code==KeyEvent.VK_SPACE || code==KeyEvent.VK_W)
-        {jumper= true;} 
+        {jumper= true;}
         if(code==KeyEvent.VK_DOWN || code==KeyEvent.VK_S)
         {squat = true;
-        jumper = false; yAdd=0; 
+        jumper = false; yAdd=0;
        }
     }
     public void actionPerformed(ActionEvent evt)
@@ -1166,17 +1166,17 @@ class Level1 extends Levels
     }
     public void keyTyped(KeyEvent evt){}
     public void keyReleased(KeyEvent evt)
-    { 
+    {
 /* This method stops the elf from squatting when the user releases the down button*/
         squat=false;
-    } 
-    public void mouseClicked(MouseEvent evt) 
+    }
+    public void mouseClicked(MouseEvent evt)
     {
 /* This method exits the program when they click the end screen and plays or pauses the game if the user clicks the pause button. */
-        grabFocus(); 
-        if(evt.getX()<=30 && evt.getY()>=370) 
+        grabFocus();
+        if(evt.getX()<=30 && evt.getY()>=370)
         {running=false; }
-        if(playButton.contains(evt.getX(), evt.getY()))running=true; 
+        if(playButton.contains(evt.getX(), evt.getY()))running=true;
         if(running){move.start(); options.timer.start();}
         else {move.stop();options.timer.stop();}
         repaint();
@@ -1191,7 +1191,7 @@ class Level1 extends Levels
 //This method stops the game when the user clicks away
         options.timer.stop();
         move.stop();
-        running = false; 
+        running = false;
         repaint();
     }
   }
@@ -1227,21 +1227,21 @@ class Level2 extends Levels
  class Grid extends JPanel implements MouseListener
  {
 /* Each instance of this class is a different difficulty for level 2. */
-     int[][]list3={ {0, 1, 5}, {1, 4, 7}, {1, 2, 3, 6}, {3, 4, 6}, 
+     int[][]list3={ {0, 1, 5}, {1, 4, 7}, {1, 2, 3, 6}, {3, 4, 6},
                     {4, 7, 8}, {4 , 5, 8}, {2, 6, 7}, {5, 7, 8}, {8, 5, 2} };
-     
+
      int[][]list4={ {0, 1, 2, 6}, {1, 5, 9, 13}, {1, 2, 3, 6}, {3, 4, 7, 8},
-        {4, 8, 11, 12}, {0, 5, 6, 7, 9}, {1, 5, 6, 7, 11}, {6, 7, 11, 12}, 
+        {4, 8, 11, 12}, {0, 5, 6, 7, 9}, {1, 5, 6, 7, 11}, {6, 7, 11, 12},
         {3, 4, 7, 8}, {8, 9, 13}, {0, 5, 9, 10}, {0, 5, 6, 10}, {3, 6, 7, 10},
         {4, 9, 13, 14}, {14, 10, 6},  { 15, 14, 11, 8} };
-        
+
      int[][]list5={ {0, 1, 2, 7}, {1, 6, 11, 16}, {1, 2, 3, 7}, {3, 4, 8, 9},
-        {4, 9, 13, 14}, {0, 5, 6, 7, 10}, {1, 5, 6, 7, 11}, {6, 7, 12, 13}, 
+        {4, 9, 13, 14}, {0, 5, 6, 7, 10}, {1, 5, 6, 7, 11}, {6, 7, 12, 13},
         {3, 4, 7, 8}, {8, 9, 14}, {0, 5, 10, 11}, {0, 5, 6, 11}, {3, 7, 8, 12},
         {4, 9, 13, 14}, {14, 17, 18, 19},  {10, 15, 16, 20}, {10, 11, 12, 16},
-        {13, 16, 17, 18}, {12, 13, 18, 19}, {8, 9, 14, 19}, {15, 16, 20, 21}, 
+        {13, 16, 17, 18}, {12, 13, 18, 19}, {8, 9, 14, 19}, {15, 16, 20, 21},
         {15, 16, 17, 21}, {18, 21, 22, 23}, {13, 14, 18, 23}, {13, 18, 19, 24}};
-     
+
      int[][][] master = {list3, list4, list5};
      int level, wait;
      boolean[]green;
@@ -1249,18 +1249,18 @@ class Level2 extends Levels
      public Grid(int num)
      {
 /* This method creates all the clickable panels and scrambles them before displying them to the audience. */
-         setBackground(light); 
+         setBackground(light);
          level = num;
          buttons = new Button[level*level];
-         green = new boolean[level*level]; 
+         green = new boolean[level*level];
          setLayout(new GridLayout(num, num, 10, 10));
          addMouseListener(this);
          for(int index=0; index<num*num; index++)
          {
              green[index] = true;
              buttons[index] = new Button(index);
-             add(buttons[index]); 
-         } 
+             add(buttons[index]);
+         }
          for(int initial=0; initial<num*num; initial++)
          scramble(initial);
      }
@@ -1273,10 +1273,10 @@ class Level2 extends Levels
          won = true;
          for(int index=0; index<level*level; index++)
          {buttons[index].repaint(); if(!green[index]) won=false;}
-         if(won) 
+         if(won)
          {
              map.numGifts+= picked*20;
-             killIt(); 
+             killIt();
          }
      }
      public void restart()
@@ -1288,7 +1288,7 @@ class Level2 extends Levels
              green[index] = true;
              buttons[index] = new Button(index);
              buttons[index].setBackground(Color.GREEN);
-         } 
+         }
          for(int numAdd=0; numAdd<level*level; numAdd++)
          add(buttons[numAdd]);
          for(int initial=0; initial<level*level; initial++)
@@ -1309,7 +1309,7 @@ class Level2 extends Levels
          int row = (int)(x/(getWidth()/level));
          int column = (int)(y/(getHeight()/level));
          if(row==level)row--;
-         if(column==level)column--; 
+         if(column==level)column--;
          scramble(row+(column*level));
      }
      public void mouseEntered(MouseEvent e){}
@@ -1319,11 +1319,11 @@ class Level2 extends Levels
 /* Each instance of this class is one of the square buttons in the game. It allows me to animate the tiny pictures. */
          int whichOne; boolean stand;
          Timer workOut = new Timer(200, this);
-         Image[] elf = { new ImageIcon("StandingElf.png").getImage(), 
-             new ImageIcon("CrouchingElf.png").getImage()};
-         Image[] krampus = {new ImageIcon("StandingKrampus.png").getImage(),
-             new ImageIcon("CrouchingKrampus.png").getImage()};
-             
+         Image[] elf = { new ImageIcon("assets/StandingElf.png").getImage(),
+             new ImageIcon("assets/CrouchingElf.png").getImage()};
+         Image[] krampus = {new ImageIcon("assets/StandingKrampus.png").getImage(),
+             new ImageIcon("assets/CrouchingKrampus.png").getImage()};
+
          public Button(int get)
          {
 /* This contructor tells the button which index it needs to check to determine whether it is red or green*/
@@ -1334,17 +1334,17 @@ class Level2 extends Levels
          {
 /* This method either paints the panel red with krampus or green with an elf depending on its corresponding boolean*/
              super.paintComponent(g);
-             if(green[whichOne]) 
+             if(green[whichOne])
              {
                  setBackground(Color.GREEN);
                  if(stand)
                  g.drawImage(elf[0], 25, 25, getWidth()-50, getHeight()-50, null);
-                 else 
+                 else
                  g.drawImage(elf[1], 25, 25, getWidth()-50, getHeight()-75, null);
              }
-             else 
+             else
              {
-                 setBackground(Color.RED); 
+                 setBackground(Color.RED);
                  if(!stand)
                     g.drawImage(krampus[0], 25, 25, getWidth()-50, getHeight()-50, null);
                  else
@@ -1353,12 +1353,12 @@ class Level2 extends Levels
          }
          public void actionPerformed(ActionEvent e)
          {
-/* This method changes whether the character is standing or squatting based on 
+/* This method changes whether the character is standing or squatting based on
 a timer */
             stand=!stand;repaint();}
      }
- } 
-}  
+ }
+}
 class Level3 extends Levels
 {
 /* This class creates and runs level 3 when called. */
@@ -1391,11 +1391,11 @@ class Level3 extends Levels
     class Grid extends JPanel implements MouseListener, MouseMotionListener
     {
 /* Each instance of this class is a different difficulty for level 3. */
-        Polygon[] pieces; 
-        int[][]answers; 
-        int xAdd, yAdd; 
-        int select; 
-        boolean[]inPlace; 
+        Polygon[] pieces;
+        int[][]answers;
+        int xAdd, yAdd;
+        int select;
+        boolean[]inPlace;
         Color brown = new Color(255, 218, 142);
         Color[] colors = {Color.BLUE, Color.RED, Color.YELLOW, Color.ORANGE, Color.PINK, Color.WHITE};
         public Grid(int level)
@@ -1406,65 +1406,65 @@ class Level3 extends Levels
          addMouseMotionListener(this);
          inPlace = new boolean[level+3];
          pieces = new Polygon[level+3];
-         answers= new int[level+3][2]; 
+         answers= new int[level+3][2];
          for(int index=0; index<level+3; index++)
          {
              inPlace[index]=false;
-             pieces[index]=null; 
+             pieces[index]=null;
          }
          if(level==1)
          {
              int[][]xPieces=
-             {{0, 264, 264, 88, 88, 0}, {0, 176, 176, 88, 88, 0}, 
+             {{0, 264, 264, 88, 88, 0}, {0, 176, 176, 88, 88, 0},
              {0, 88, 88, 352, 352, 264, 264, 0},{0, 264, 264, 352, 352, 0}};
              int[][]yPieces=
-             { {0, 0, 70, 70, 140, 140},{0, 0, 280, 280, 70, 70}, 
+             { {0, 0, 70, 70, 140, 140},{0, 0, 280, 280, 70, 70},
                {70, 70, 0, 0, 70, 70, 140, 140}, {70, 70, 0, 0, 140, 140}};
              for(int index=0; index<level+3; index++)
              pieces[index]= new Polygon(xPieces[index], yPieces[index], xPieces[index].length);
-             
+
              answers[0][0]=65; answers[0][1]=65;
              answers[1][0]=329; answers[1][1]=65;
-             answers[2][0]=65; answers[2][1]=135; 
+             answers[2][0]=65; answers[2][1]=135;
              answers[3][0]=65; answers[3][1]=205;
          }
          else if(level==2)
          {
              int[][]xPieces=
-             {{0, 88, 88, 176, 176, 88, 88, 0}, {0, 352, 352, 264, 264, 0}, 
+             {{0, 88, 88, 176, 176, 88, 88, 0}, {0, 352, 352, 264, 264, 0},
              {0, 88, 88, 176, 176, 264, 264, 176, 176, 0},
              {0, 88, 88, 176, 176, 88, 88, 0}, {0, 176, 176, 0}};
              int[][]yPieces=
-             { {0, 0, 70, 70, 140, 140, 210, 210},{0, 0, 140, 140, 70, 70}, 
-               {140, 140, 70, 70, 0, 0, 140, 140, 210, 210}, 
+             { {0, 0, 70, 70, 140, 140, 210, 210},{0, 0, 140, 140, 70, 70},
+               {140, 140, 70, 70, 0, 0, 140, 140, 210, 210},
                {0, 0, 70, 70, 210, 210, 140, 140}, {0, 0, 70, 70}};
              for(int index=0; index<level+3; index++)
              pieces[index]= new Polygon(xPieces[index], yPieces[index], xPieces[index].length);
-             
+
              answers[0][0]=65; answers[0][1]=65;
              answers[1][0]=153; answers[1][1]=65;
-             answers[2][0]=65; answers[2][1]=135; 
+             answers[2][0]=65; answers[2][1]=135;
              answers[3][0]=329; answers[3][1]=135;
-             answers[4][0]= 241; answers[4][1]=275; 
+             answers[4][0]= 241; answers[4][1]=275;
          }
-         else 
+         else
          {
              int[][]xPieces=
-             { {0, 176, 176, 88, 88, 0}, {0, 264, 264, 176, 176, 88, 88, 0}, 
-               {0, 88, 88, 176, 176, 88, 88, 0}, {0, 88, 88, 0}, 
+             { {0, 176, 176, 88, 88, 0}, {0, 264, 264, 176, 176, 88, 88, 0},
+               {0, 88, 88, 176, 176, 88, 88, 0}, {0, 88, 88, 0},
                {0, 176, 176, 264, 264, 0}, {0, 88, 88, 0}};
              int[][]yPieces=
-             { {0, 0, 70, 70, 140, 140}, {0, 0, 70, 70, 140, 140, 70, 70}, 
-               {70, 70, 0, 0, 140, 140, 210, 210}, {0, 0, 140, 140}, 
+             { {0, 0, 70, 70, 140, 140}, {0, 0, 70, 70, 140, 140, 70, 70},
+               {70, 70, 0, 0, 140, 140, 210, 210}, {0, 0, 140, 140},
                {70, 70, 0, 0, 140, 140}, {0, 0, 210, 210}};
              for(int index=0; index<level+3; index++)
              pieces[index]= new Polygon(xPieces[index], yPieces[index], xPieces[index].length);
-         
+
              answers[0][0]=65; answers[0][1]=65;
              answers[1][0]=241; answers[1][1]=65;
-             answers[2][0]=65; answers[2][1]=135; 
+             answers[2][0]=65; answers[2][1]=135;
              answers[3][0]=241; answers[3][1]=135;
-             answers[4][0]=153; answers[4][1]=205; 
+             answers[4][0]=153; answers[4][1]=205;
              answers[5][0]=417; answers[5][1]=135;
          }
          for(int index=0; index<level+3; index++)
@@ -1479,17 +1479,17 @@ class Level3 extends Levels
             g.setColor(brown);
             g.fillRect(65, 65, 440, 280);
             piecePainter(g);
-            won = true; 
+            won = true;
             for(int index=0; index<pieces.length; index++)
-            if(!inPlace[index]) won=false; 
+            if(!inPlace[index]) won=false;
             if(won)
             {
                 map.numGifts+= picked*10;
-                killIt(); 
+                killIt();
             }
             else if(dead)
             {
-             Image display = new ImageIcon("Died.png").getImage();
+             Image display = new ImageIcon("assets/Died.png").getImage();
              g.drawImage(display, -25, -43, 863, 590, null);
             }
         }
@@ -1517,7 +1517,7 @@ class Level3 extends Levels
                 int xloc = (int)(pieces[index].getBounds().getX());
                 int yloc = (int)(pieces[index].getBounds().getY());
                 pieces[index].translate(-1*(xloc-100*index), -1*(yloc-300));
-                inPlace[index]=false; 
+                inPlace[index]=false;
             }
         }
         public void mouseMoved(MouseEvent e){}
@@ -1528,10 +1528,10 @@ class Level3 extends Levels
             {
                 int x = e.getX();
                 int y = e.getY();
-                
+
                 pieces[select].translate(x-xAdd, y-yAdd);
-                xAdd= x; yAdd= y; 
-                
+                xAdd= x; yAdd= y;
+
                 repaint();
             }
         }
@@ -1541,13 +1541,13 @@ class Level3 extends Levels
 /* This method determines which polygon was clicked and sets its index as a field variable. */
             int x = e.getX();
             int y = e.getY();
-            
+
             select = pieces.length;
             for(int index=0; index<pieces.length; index++)
-            if(pieces[index].contains(x, y) && !inPlace[index]) 
+            if(pieces[index].contains(x, y) && !inPlace[index])
             {
                 select=index;
-                xAdd = x; yAdd= y; 
+                xAdd = x; yAdd= y;
             }
         }
         public void mouseReleased(MouseEvent e)
@@ -1557,15 +1557,15 @@ class Level3 extends Levels
             {
                 int x = (int)(pieces[select].getBounds().getX());
                 int y = (int)(pieces[select].getBounds().getY());
-        
+
                 if(answers[select][0]<x+20 && answers[select][0]>x-20 && answers[select][1]<y+20 && answers[select][1]>y-20)
                 {
-                    inPlace[select]=true; 
-                    pieces[select].translate(-1*(x-answers[select][0]), 
+                    inPlace[select]=true;
+                    pieces[select].translate(-1*(x-answers[select][0]),
                     -1*(y-answers[select][1]));
                 }
             }
-            select = pieces.length; 
+            select = pieces.length;
             repaint();
         }
         public void mouseEntered(MouseEvent e){}
@@ -1600,15 +1600,15 @@ class Level4 extends Levels
 /* Each instance of this class holds either easy medium or hard. */
         Timer side= new Timer(10, this);
         Color lightBlue = new Color(220, 255, 255);
-        Image present = new ImageIcon("Gift.png").getImage();
+        Image present = new ImageIcon("assets/Gift.png").getImage();
         JLabel displayScore;
-        
+
         int time2, quota, score, numShots;
         int[]priorShots=new int[0];
         int yAdd=450;
         Polygon arrow;
         boolean flip = false;
-        boolean shoot = false; 
+        boolean shoot = false;
         Color darkBrown = new Color(122, 98, 56);
         public Grid(int num)
         {
@@ -1616,15 +1616,15 @@ class Level4 extends Levels
             setBackground(Color.CYAN);
             addMouseListener(this);
             setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-            
+
             displayScore=new JLabel("");
             displayScore.setFont(new Font("Arial", Font.BOLD, 50));
             displayScore.setForeground(darkBrown);
             options.instructions.setText("Score 10 Points!");
-        
+
             add(displayScore);
             side.start();
-            
+
             quota = num;
             int[] arr1 = {0, -10, 60, 50, 75, 25, -25};
             int[] arr2 ={390, 440, 440, 390, 390, 365, 390};
@@ -1634,7 +1634,7 @@ class Level4 extends Levels
         {
 /* This method draws the target, the arrow, and the projectile that the user can shoot. */
             super.paintComponent(g);
-            
+
             g.setColor(dark);
             g.fillRect(0, 300, 600, 600);
             for(int x=23; x>-1;x--)
@@ -1653,21 +1653,21 @@ class Level4 extends Levels
                 else g.setColor(Color.RED);
                 g.fillOval((index*25)+100, index*25, 400-(index*50), 400-(index*50));
             }
-            
+
             g.setColor(light);
             g.fillPolygon(arrow);
-            
+
             g.setColor(Color.BLACK);
             for(int index=0; index<priorShots.length; index++)
             {g.drawLine(priorShots[index], 195, priorShots[index], 205);
             g.drawLine(priorShots[index]-5, 200, priorShots[index]+5, 200);}
-            
+
             if(!shoot)
             g.drawImage(present, time2-100, yAdd, 225, 112, null);
-            
+
             if(shoot)
             g.drawImage(present, time2-100+(125-yAdd/4), yAdd-yAdd/50, yAdd/2, yAdd/4, null);
-            
+
         }
         public void actionPerformed(ActionEvent e)
         {
@@ -1677,9 +1677,9 @@ class Level4 extends Levels
                 { if(flip) {arrow.translate(1, 0); time2++;}
                   else {arrow.translate(-1, 0); time2--;}
                 }
-            if(shoot && yAdd>175) 
+            if(shoot && yAdd>175)
             {
-                yAdd--; 
+                yAdd--;
                 if(side.getDelay()>0 && yAdd%30==0)
                 side.setDelay(side.getDelay()+1);
             }
@@ -1699,13 +1699,13 @@ class Level4 extends Levels
             else if(centerX>175 && centerX<425)add=4; //3
             else if(centerX>150 && centerX<450)add=3; //2
             else if(centerX>125 && centerX<475)add=2; //1
-            
-            score+=add; 
+
+            score+=add;
             displayScore.setText(""+score);
             options.timer.start();
             arrow.translate(-1*time2, 0);
-            shoot=false; 
-            yAdd=450; 
+            shoot=false;
+            yAdd=450;
             time2=0;
             flip=false;
             side.setDelay(10);
@@ -1715,14 +1715,14 @@ class Level4 extends Levels
                 for(int index=0; index<priorShots.length; index++)
                 interm[index] = priorShots[index];
                 priorShots = new int[interm.length+1];
-                
+
                 for(int index=0; index<interm.length; index++)
                 priorShots[index]=interm[index];
                 priorShots[priorShots.length-1]= centerX;
             }
             if(score>=quota)
             {
-                won=true; 
+                won=true;
                 map.numGifts+= picked*10;
                 killIt();
             }
@@ -1730,7 +1730,7 @@ class Level4 extends Levels
         public void reset()
         {
 /* Resets the frame when a level is switched. */
-            score=0; 
+            score=0;
             displayScore.setText("");
             arrow.translate(-1*time2, 0);
             priorShots = new int[0];
@@ -1740,7 +1740,7 @@ class Level4 extends Levels
         {
 /* This method starts the process of shooting when the user clicks the mouse. */
             options.timer.stop();
-            shoot=true; 
+            shoot=true;
             side.setDelay(1);
             repaint();
         }
@@ -1748,7 +1748,7 @@ class Level4 extends Levels
         public void mouseReleased(MouseEvent e){}
         public void mouseExited(MouseEvent e){}
         public void mouseEntered(MouseEvent e){}
-    }        
+    }
  }
  class Level5 extends JPanel implements ActionListener, KeyListener, MouseListener, FocusListener
  {
@@ -1757,10 +1757,10 @@ class Level4 extends Levels
      Color lightBlue = new Color(144, 255, 255);
      Font font = new Font("Arial", Font.BOLD, 50);
      Image[]santa, krampus;
-     int jump = -1; 
+     int jump = -1;
      int xAdd, yAdd, timeB, win;
      Person santaRect; Person krampRect;
-     JLabel words; 
+     JLabel words;
      public Level5()
      {
 //This constructor adds the necessary listeners and two characters to the screen
@@ -1769,21 +1769,21 @@ class Level4 extends Levels
          addKeyListener(this);
          setLayout(null);
          setBackground(lightBlue);
-         
+
          words = new JLabel("Click Anywhere to Play");
          words.setFont(font);
          words.setForeground(Color.RED);
          words.setBounds(100, 225, 600, 50);
          words.setOpaque(false);
-       
+
          santaRect = new Person("Santa");
          krampRect = new Person("Krampus");
-         
+
          timer.start();
-         
+
          santaRect.setBounds(0, 170, 300, 300);
          krampRect.setBounds(500, 140, 300, 300);
-         
+
          add(santaRect);
          add(krampRect);
          add(words);
@@ -1795,7 +1795,7 @@ class Level4 extends Levels
         if(timeB%10==0)
         krampActions(timeB/10);
         krampRect.magic=300;
-        
+
         if(jump>0)
         santaRect.jump(jump);
         if(timeB%100==0 && santaRect.magic<300) santaRect.magic++;
@@ -1807,18 +1807,18 @@ class Level4 extends Levels
 //This method interprets user movement and attacks
         int code = e.getKeyCode();
         int santX = santaRect.getX();
-        if(code==KeyEvent.VK_UP) 
+        if(code==KeyEvent.VK_UP)
             jump=timeB;
-        else if(code==KeyEvent.VK_DOWN) 
+        else if(code==KeyEvent.VK_DOWN)
             santaRect.pos=1;
-        else if((code==KeyEvent.VK_RIGHT && santX<=500)||(code==KeyEvent.VK_LEFT && santX>=0)) 
+        else if((code==KeyEvent.VK_RIGHT && santX<=500)||(code==KeyEvent.VK_LEFT && santX>=0))
             mover(santaRect, code);
         else if(code==KeyEvent.VK_D)
             attack(santaRect, krampRect, 4);
         else if(code==KeyEvent.VK_A)
             attack(santaRect, krampRect, 6);
         else if(code==KeyEvent.VK_S && santaRect.magic>=50)
-            santaRect.shotPrep(santX+150, santaRect.getY()+150, santX<krampRect.getX()); 
+            santaRect.shotPrep(santX+150, santaRect.getY()+150, santX<krampRect.getX());
         else if(code==KeyEvent.VK_W && santaRect.magic>=100)
         {
             santaRect.magic-=100;
@@ -1829,7 +1829,7 @@ class Level4 extends Levels
      public void keyReleased(KeyEvent e)
      {
 //This method changes the santa to stand when not moving
-         santaRect.pos=0; 
+         santaRect.pos=0;
          santaRect.repaint();
      }
      public void mover(Person alias, int num)
@@ -1847,25 +1847,25 @@ class Level4 extends Levels
 //This method deals with setting the position for punching and kicking. It also decreases the victim's health
          if(attack.getX()<vic.getX()) attack.pos=first;
          else attack.pos=first+1;
-         vic.health-=10; 
+         vic.health-=10;
      }
      public void krampActions(int time)
      {
 //This method decides what Krampus will be doing according to the time
-         while(time>200) time-=200; 
-         if(time<20) 
+         while(time>200) time-=200;
+         if(time<20)
             mover(krampRect, KeyEvent.VK_LEFT);
          else if(time<50)
-            krampRect.pos=0; 
-         else if(time<80 && time%10==0) 
+            krampRect.pos=0;
+         else if(time<80 && time%10==0)
             krampRect.shotPrep(krampRect.getX()+150, krampRect.getY()+150, krampRect.getX()<santaRect.getX());
          else if(time<100){}
-         else if(time<120) 
+         else if(time<120)
             mover(krampRect, KeyEvent.VK_RIGHT);
          else if(time<150)
-            krampRect.pos=0; 
-         else if(time==152) 
-            santaRect.hoTime=timeB; 
+            krampRect.pos=0;
+         else if(time==152)
+            santaRect.hoTime=timeB;
          else if(time<200){}
      }
      public void keyTyped(KeyEvent e){}
@@ -1876,7 +1876,7 @@ class Level4 extends Levels
          grabFocus();
          if(win!=0)
              whichScreen.show(masterPanel, "Game Map");
-         
+
      }
      public void mouseReleased(MouseEvent e){}
      public void mouseEntered(MouseEvent e){}
@@ -1894,15 +1894,15 @@ class Level4 extends Levels
          {
            santaRect.setVisible(false);
            krampRect.setVisible(false);
-           Image show; 
+           Image show;
            if(win==1)
-            show = new ImageIcon("EndOfLevel.png").getImage();
-           else 
-            show = new ImageIcon("Died.png").getImage();
+            show = new ImageIcon("assets/EndOfLevel.png").getImage();
+           else
+            show = new ImageIcon("assets/Died.png").getImage();
            g.drawImage(show, 0, 0, getWidth(), getHeight(), null);
            map.walking.start();
          }
-         
+
      }
      public void background(Graphics g2)
      {
@@ -1919,7 +1919,7 @@ class Level4 extends Levels
          }
      }
      public void focusLost(FocusEvent e)
-     { 
+     {
 //This method decides if the user has to click to regain focus
        words.setVisible(true);
        santaRect.setVisible(false);
@@ -1928,7 +1928,7 @@ class Level4 extends Levels
        repaint();
      }
      public void focusGained(FocusEvent e)
-     { 
+     {
 //This method decides if the user has to click to regain focus
        words.setVisible(false);
        santaRect.setVisible(true);
@@ -1954,33 +1954,33 @@ class Level4 extends Levels
       Image[] stages = new Image[8];
       int pos = 0;
       int[][]shots = new int[0][4];
-      String name; 
+      String name;
       double health = 300;
       int magic = 300;
-      int hoTime = -1; 
+      int hoTime = -1;
       Health hp;
-      Image projectile, ho; 
-      Image present = new ImageIcon("Gift.png").getImage();
-      Image boom = new ImageIcon("Blast.png").getImage();
-      Person other; 
+      Image projectile, ho;
+      Image present = new ImageIcon("assets/Gift.png").getImage();
+      Image boom = new ImageIcon("assets/Blast.png").getImage();
+      Person other;
       public Person(String which)
       {
-//This constructor creates the health/mp bards and initializes the Images 
+//This constructor creates the health/mp bards and initializes the Images
           super();
           setLayout(new BorderLayout());
           setVisible(false);
-          
+
           hp = new Health();
           hp.setPreferredSize(new Dimension(0, 20));
           add(hp, BorderLayout.NORTH);
-          
+
           setPreferredSize(new Dimension(300, 300));
           String[]title ={"Standing", "Squat", "Right", "Left", "RightPunch", "LeftPunch", "RightKick", "LeftKick"};
           for(int index=0; index<title.length; index++)
-          stages[index]=new ImageIcon(title[index] + which + ".png").getImage();
-          if(which.equals("Santa")) 
+          stages[index]=new ImageIcon("assets/"+title[index] + which + ".png").getImage();
+          if(which.equals("Santa"))
           {
-              stages[0]=new ImageIcon("Standing1Santa.png").getImage(); 
+              stages[0]=new ImageIcon("assets/Standing1Santa.png").getImage();
               name="Santa";
               projectile = present;
               ho= boom;
@@ -1998,7 +1998,7 @@ class Level4 extends Levels
 //This method paints the character in its designated position
           super.paintComponent(g);
           if(name.equals("Santa")) other = krampRect;
-          else other = santaRect; 
+          else other = santaRect;
           if(pos==0)
           g.drawImage(stages[0], 50, 30, 220, 270, null);
           else if(pos==1)
@@ -2012,12 +2012,12 @@ class Level4 extends Levels
           }
           else
               g.drawImage(stages[pos], 0, 30, 300, 270, null);
-          
+
           if(hoTime>0)
           {
               for(int index=0; index<300; index++)
               g.drawImage(ho, (int)(Math.random()*270), (int)(Math.random()*270), 20, 20, null);
-              health-=0.5; 
+              health-=0.5;
               hp.repaint();
               if(hoTime+300<=timeB) {hoTime=-1;}
           }
@@ -2025,10 +2025,10 @@ class Level4 extends Levels
       public void jump(int start)
       {
 //This method moves the panel so that the character jumps in accordance with a physics equation
-          int elapse = timeB-start; 
+          int elapse = timeB-start;
           int height = (int)(5*elapse+0.0002*elapse*elapse);
           setBounds(getX(), height, 300, 300);
-          if(170<=height) jump=-1; 
+          if(170<=height) jump=-1;
       }
       public void shotPrep(double xGet, double yGet, boolean right)
      {
@@ -2039,13 +2039,13 @@ class Level4 extends Levels
          shots = new int[interm.length+1][4];
          for(int index=0; index<interm.length; index++)
          shots[index]=interm[index];
-         
+
          shots[interm.length][0]=x;
          shots[interm.length][1]=y;
-         
+
          if(right) shots[interm.length][2] = 1;
-         else shots[interm.length][2] = -1; 
-         shots[interm.length][3]= timeB; 
+         else shots[interm.length][2] = -1;
+         shots[interm.length][3]= timeB;
      }
      public void shooter(Graphics g2)
      {
@@ -2055,13 +2055,13 @@ class Level4 extends Levels
              int elapse = timeB-shots[index][3];
              if(elapse==0){magic-=75; }
              g2.drawImage(projectile, shots[index][0]+shots[index][2]*elapse, shots[index][1]+(int)(elapse*-1.5+0.004*Math.pow(elapse, 2)), 50, 50, null);
-             if(shots[index][2]*elapse+shots[index][0]<=other.getX()+200 && 
-             shots[index][2]*elapse+shots[index][0]>=other.getX()+100 && other.pos!=1) 
+             if(shots[index][2]*elapse+shots[index][0]<=other.getX()+200 &&
+             shots[index][2]*elapse+shots[index][0]>=other.getX()+100 && other.pos!=1)
              {
-                 removeShot(index); 
-                 other.health-=20; 
+                 removeShot(index);
+                 other.health-=20;
              }
-             else if(elapse>=300) 
+             else if(elapse>=300)
              removeShot(index);
          }
      }
@@ -2071,7 +2071,7 @@ class Level4 extends Levels
          int[][] interm = shots;
          shots = new int[shots.length-1][4];
          for(int index=0; index< shots.length; index++)
-         shots[index]=interm[index+1]; 
+         shots[index]=interm[index+1];
          repaint();
      }
       class Health extends JPanel
@@ -2080,7 +2080,7 @@ class Level4 extends Levels
           public Health()
           {
 //This constructor sets the background or the health/mp bar and starts the timer that will regenerate its health
-              setBackground(Color.BLACK); 
+              setBackground(Color.BLACK);
           }
           public void paintComponent(Graphics g)
           {
